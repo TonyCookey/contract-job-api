@@ -1,41 +1,34 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const { sequelize } = require('./model')
-const { Op } = require("sequelize");
 const { getProfile } = require('./middleware/getProfile')
 const app = express();
+const ContractController = require('./controllers/ContractController')
 app.use(bodyParser.json());
 app.set('sequelize', sequelize)
 app.set('models', sequelize.models)
 
+/**
+ * API Index Route 
+ * @returns Welcome Message
+ */
 app.get('/', async (req, res) => {
     res.status(200).json({
-        message: "Wlcome to API"
+        message: "Welcome to Profile->Contract->Job API"
     })
 })
 
+
 /**
- * FIX ME!
+ * Fetch Contract for the Authenticated Profile
  * @returns contract by id
  */
-app.get('/contracts/:id', getProfile, async (req, res) => {
-    // return res.json(req.profile)
-    const { Contract } = req.app.get('models')
-    const { id } = req.params
-    console.log();
-    const contract = await Contract.findOne({
-        where: {
-            id,
-            [Op.or]: [
-                { ClientId: req.profile.id },
-                { ContractorId: req.profile.id }
-            ]
-        }
-    })
-    console.log(contract);
-    if (!contract) return res.status(404).json({
-        message: 'Could not find requested contract'
-    }).end()
-    return res.status(200).json(contract)
-})
+app.get('/contracts/:id', getProfile, ContractController.getContractForAuthProfile)
+
+/**
+ * Fetch non terminated Contract for the Authenticated Profile - new, in_progress
+ * @returns contract by id
+ */
+app.get('/contracts', getProfile, ContractController.getNonTerminatedContractForAuthProfile)
+
 module.exports = app;
