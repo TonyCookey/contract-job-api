@@ -1,4 +1,3 @@
-const e = require('express');
 const request = require('supertest');
 
 const app = require('../app')
@@ -38,7 +37,7 @@ describe('TEST - Fetch Contracts Controller Endpoint - /contracts/:id', () => {
 
     describe('PASS - Fetch a single contract for an authenticated Profile ', () => {
         test('It should respond with 200 OK', async () => {
-            const response = await request(app)
+            await request(app)
                 .get(`/contracts/${authProfileContract.id}`)
                 .set('profile_id', authProfile.id)
                 .expect('Content-Type', /json/)

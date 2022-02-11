@@ -1,4 +1,3 @@
-const e = require('express');
 const request = require('supertest');
 
 const app = require('../app')
@@ -42,7 +41,7 @@ describe('TEST - Fetch Job Controller Endpoint - /jobs/unpaid', () => {
 
     });
 
-    describe('FAIL - Fetch a single contract that does not belong to the authenticated user ', () => {
+    describe('FAIL - Fetch unpaid jobs that does not belong to an active contract ', () => {
         test('It should respond with 404 Not Found', async () => {
             await request(app)
                 .get(`/jobs/unpaid`)
@@ -58,7 +57,7 @@ describe('TEST -  Job Controller Endpoint - /jobs/:job_id/pay', () => {
         test('It should respond with 200 OK', async () => {
 
             const response = await request(app)
-                .post(`/jobs/1/pay`)
+                .post(`/jobs/2/pay`)
                 .set('profile_id', 1)
                 .expect('Content-Type', /json/)
                 .expect(200);
@@ -71,7 +70,7 @@ describe('TEST -  Job Controller Endpoint - /jobs/:job_id/pay', () => {
         test('It should respond with 403 Forbidden', async () => {
 
             const response = await request(app)
-                .post(`/jobs/1/pay`)
+                .post(`/jobs/2/pay`)
                 .set('profile_id', 1)
                 .expect('Content-Type', /json/)
                 .expect(403);
