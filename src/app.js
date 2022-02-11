@@ -53,12 +53,13 @@ app.post('/balances/deposit/:userId', BalanceController.depositFunds)
 
 /**
  * get the highest earning profession during a time range
- * @returns highest paying profession and amount earned 
+ * @returns highest paid profession and amount earned 
  */
 app.get('/admin/best-profession', AdminController.getHighestPaidrofession)
 
 /**
  * get the highest paying clients - limit
+ * @returns highest paying clients and amount paid 
  */
 app.get('/admin/best-clients', AdminController.getHighestPayingClient)
 

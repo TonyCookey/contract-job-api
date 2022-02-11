@@ -21,7 +21,7 @@ const noActiveContractProfile = {
 }
 describe('TEST - Fetch Job Controller Endpoint - /jobs/unpaid', () => {
 
-    describe('PASS - Fetch unpaid jobs that belong to an active contract for an authenticated Profile ', () => {
+    describe('TEST - Fetch unpaid jobs that belong to an active contract for an authenticated Profile ', () => {
         test('It should respond with 200 OK', async () => {
             await request(app)
                 .get(`/jobs/unpaid`)
@@ -31,7 +31,7 @@ describe('TEST - Fetch Job Controller Endpoint - /jobs/unpaid', () => {
         });
     });
 
-    describe('FAIL - Fetch unpaid jobs that belong to an active contract for an unathenticated Profile ', () => {
+    describe('TEST - Fetch unpaid jobs that belong to an active contract for an unathenticated Profile ', () => {
         test('It should respond with 401 Unauthorized', async () => {
             await request(app)
                 .get(`/jobs/unpaid`)
@@ -41,7 +41,7 @@ describe('TEST - Fetch Job Controller Endpoint - /jobs/unpaid', () => {
 
     });
 
-    describe('FAIL - Fetch unpaid jobs that does not belong to an active contract ', () => {
+    describe('TEST - Fetch unpaid jobs that does not belong to an active contract ', () => {
         test('It should respond with 404 Not Found', async () => {
             await request(app)
                 .get(`/jobs/unpaid`)
@@ -66,7 +66,7 @@ describe('TEST -  Job Controller Endpoint - /jobs/:job_id/pay', () => {
             expect(response.body.result).not.toBeNull();
         });
     })
-    describe('FAIL - pay the contractor for the job that has been paid for', () => {
+    describe('TEST - pay the contractor for the job that has been paid for', () => {
         test('It should respond with 403 Forbidden', async () => {
 
             const response = await request(app)
@@ -79,7 +79,7 @@ describe('TEST -  Job Controller Endpoint - /jobs/:job_id/pay', () => {
         });
     })
 
-    describe('FAIL - Fetch a job that does not exist ', () => {
+    describe('TEST - Fetch a job that does not exist ', () => {
         test('It should respond with 404 Not Found', async () => {
             const response = await request(app)
                 .post(`/jobs/100/pay`)
@@ -89,7 +89,7 @@ describe('TEST -  Job Controller Endpoint - /jobs/:job_id/pay', () => {
             expect(response.body.message).toBe('Could not find the requested job')
         });
     });
-    describe('FAIL - Fetch a job that does not belong to the authenticated user ', () => {
+    describe('TEST - Fetch a job that does not belong to the authenticated user ', () => {
         test('It should respond with 403 Forbidden', async () => {
             await request(app)
                 .post(`/jobs/1/pay`)

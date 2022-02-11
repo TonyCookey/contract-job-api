@@ -11,7 +11,6 @@ async function getHighestPaidrofession(req, res) {
         const { Profile } = req.app.get('models')
         const { start, end } = req.query
         // validate query params
-        console.log(validateDate(start, end))
 
         if (!req.params || !start || !end) {
             return res.status(400).json({
@@ -21,7 +20,7 @@ async function getHighestPaidrofession(req, res) {
 
         if (!validateDate(start, end)) {
             return res.status(400).json({
-                message: 'Could not complete request. valid date range is required - (start - end)',
+                message: 'Could not complete request. please use the valid date format(YY/MM/DD)',
             }).end()
         }
 
@@ -38,7 +37,7 @@ async function getHighestPaidrofession(req, res) {
 
         if (!results || results.length == 0) {
             return res.status(404).json({
-                message: 'Could not find the highest paid profession within this date range. Try a wider/valid date range',
+                message: 'Could not find the highest paid profession within this date range',
             }).end()
         }
 
@@ -69,9 +68,8 @@ async function getHighestPayingClient(req, res) {
         const sequelize = await req.app.get('sequelize');
         const { Profile } = req.app.get('models')
         const { start, end, limit } = req.query
-        // validate query params
-        console.log(validateDate(start, end))
 
+        // validate query params
         if (!req.params || !start || !end) {
             return res.status(400).json({
                 message: 'Could not complete request. date range is required - (start - end)',
@@ -80,7 +78,7 @@ async function getHighestPayingClient(req, res) {
 
         if (!validateDate(start, end)) {
             return res.status(400).json({
-                message: 'Could not complete request. valid date range is required - (start - end)',
+                message: 'Could not complete request. please use the valid date format(YY/MM/DD)',
             }).end()
         }
         // get highest paying client by collating, grouping paid jobs
@@ -97,7 +95,7 @@ async function getHighestPayingClient(req, res) {
 
         if (!clients || clients.length == 0) {
             return res.status(404).json({
-                message: 'Could not find the highest paying client within this date range. Try a wider/valid date range',
+                message: 'Could not find the highest paying client within this date range',
             }).end()
         }
 
@@ -112,7 +110,7 @@ async function getHighestPayingClient(req, res) {
 
         return res.status(200).json({
             message: `Successfully returned the highest paying client based on paid jobs from '${start}' - '${end}'`,
-            highestPayingClients
+            result: highestPayingClients
         })
 
     } catch (error) {
@@ -123,6 +121,8 @@ async function getHighestPayingClient(req, res) {
         })
     }
 }
+
+// Date Validator Helper Function
 function validateDate(start, end) {
     start = new Date(start)
     end = new Date(end)

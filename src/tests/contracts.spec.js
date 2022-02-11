@@ -45,7 +45,7 @@ describe('TEST - Fetch Contracts Controller Endpoint - /contracts/:id', () => {
         });
     });
 
-    describe('FAIL - Fetch a single contract for an unathenticated Profile ', () => {
+    describe('TEST - Fetch a single contract for an unathenticated Profile ', () => {
         test('It should respond with 401 Unauthorized', async () => {
             await request(app)
                 .get(`/contracts/${authProfileContract.id}`)
@@ -55,7 +55,7 @@ describe('TEST - Fetch Contracts Controller Endpoint - /contracts/:id', () => {
 
     });
 
-    describe('FAIL - Fetch a single contract that does not exist ', () => {
+    describe('TEST - Fetch a single contract that does not exist ', () => {
         test('It should respond with 404 Not Found', async () => {
             await request(app)
                 .get(`/contracts/500`)
@@ -64,7 +64,7 @@ describe('TEST - Fetch Contracts Controller Endpoint - /contracts/:id', () => {
                 .expect(404);
         });
     });
-    describe('FAIL - Fetch a single contract that does not belong to the authenticated user ', () => {
+    describe('TEST - Fetch a single contract that does not belong to the authenticated user ', () => {
         test('It should respond with 404 Not Found', async () => {
             await request(app)
                 .get(`/contracts/${sampleContract.id}`)
@@ -98,7 +98,7 @@ describe('TEST - Fetch Contracts Controller Endpoint - /contracts/', () => {
         });
     });
 
-    describe('FAIL - Fetch all unterminated contracts for an unathenticated Profile ', () => {
+    describe('TEST - Fetch all unterminated contracts for an unathenticated Profile ', () => {
         test('It should respond with 401 Unauthorized', async () => {
             await request(app)
                 .get(`/contracts`)

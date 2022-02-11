@@ -5,7 +5,7 @@ const app = require('../app')
 
 describe('TEST - POST Balance Controller Endpoint - /balances/deposit/:userId', () => {
 
-    describe('PASS - Deposits money into the the the balance of a client ', () => {
+    describe('TEST - Deposits money into the the the balance of a client ', () => {
         test('It should respond with 200 OK', async () => {
             const response = await request(app)
                 .post(`/balances/deposit/2`)
@@ -16,7 +16,7 @@ describe('TEST - POST Balance Controller Endpoint - /balances/deposit/:userId', 
 
     });
 
-    describe('FAIL - Deposits money into the the the balance of a client ', () => {
+    describe('TEST - Deposits money into the the the balance of a client ', () => {
         test('It should respond with 403 Forbidden', async () => {
             const response = await request(app)
                 .post(`/balances/deposit/5`)
