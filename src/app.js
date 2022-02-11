@@ -49,4 +49,15 @@ app.post('/jobs/:job_id/pay', getProfile, JobController.payContractor)
  */
 app.post('/balances/deposit/:userId', getProfile, BalanceController.depositFunds)
 
+
+/**
+ * get the highest earning profession during a time range
+ */
+app.get('/jobs/unpaid', getProfile, JobController.getUnpaidJobs)
+
+/**
+ * get the highest paying clients - limit
+ */
+app.get('/jobs/unpaid', getProfile, JobController.getUnpaidJobs)
+
 module.exports = app;
