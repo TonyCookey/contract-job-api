@@ -48,7 +48,7 @@ describe('TEST - Fetch Contracts Controller Endpoint - /contracts/:id', () => {
 
     describe('FAIL - Fetch a single contract for an unathenticated Profile ', () => {
         test('It should respond with 401 Unauthorized', async () => {
-            const response = await request(app)
+            await request(app)
                 .get(`/contracts/${authProfileContract.id}`)
                 .expect('Content-Type', /json/)
                 .expect(401);
@@ -58,7 +58,7 @@ describe('TEST - Fetch Contracts Controller Endpoint - /contracts/:id', () => {
 
     describe('FAIL - Fetch a single contract that does not exist ', () => {
         test('It should respond with 404 Not Found', async () => {
-            const response = await request(app)
+            await request(app)
                 .get(`/contracts/500`)
                 .set('profile_id', authProfile.id)
                 .expect('Content-Type', /json/)
@@ -67,7 +67,7 @@ describe('TEST - Fetch Contracts Controller Endpoint - /contracts/:id', () => {
     });
     describe('FAIL - Fetch a single contract that does not belong to the authenticated user ', () => {
         test('It should respond with 404 Not Found', async () => {
-            const response = await request(app)
+            await request(app)
                 .get(`/contracts/${sampleContract.id}`)
                 .set('profile_id', authProfile.id)
                 .expect('Content-Type', /json/)
@@ -94,15 +94,14 @@ describe('TEST - Fetch Contracts Controller Endpoint - /contracts/', () => {
                 .get(`/contracts`)
                 .set('profile_id', NoContractProfile.id)
                 .expect('Content-Type', /json/)
-                .expect(200)
+                .expect(404)
             expect(response.body.message).toBe('Could not find non terminated contracts - new or in_progress contracts');
-            expect(response.body.result).toHaveLength(0);
         });
     });
 
     describe('FAIL - Fetch all unterminated contracts for an unathenticated Profile ', () => {
         test('It should respond with 401 Unauthorized', async () => {
-            const response = await request(app)
+            await request(app)
                 .get(`/contracts`)
                 .expect('Content-Type', /json/)
                 .expect(401);
