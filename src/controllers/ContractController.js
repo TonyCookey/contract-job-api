@@ -53,9 +53,8 @@ async function getNonTerminatedContractForAuthProfile(req, res) {
             }
         })
 
-        if (!contracts || contracts.length == 0) return res.status(200).json({
+        if (!contracts || contracts.length == 0) return res.status(404).json({
             message: 'Could not find non terminated contracts - new or in_progress contracts',
-            result: contracts
         }).end()
 
         return res.status(200).json({
