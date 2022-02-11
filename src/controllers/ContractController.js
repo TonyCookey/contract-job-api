@@ -9,6 +9,7 @@ async function getContractForAuthProfile(req, res) {
         const { Contract } = req.app.get('models')
 
         const { id } = req.params
+        // find a single contract using the contract identifier
         const contract = await Contract.findOne({
             where: {
                 id,
@@ -18,6 +19,7 @@ async function getContractForAuthProfile(req, res) {
                 ]
             }
         })
+        // return error if contract is not found
         if (!contract) return res.status(404).json({
             message: 'Could not find requested contract'
         }).end()
@@ -39,6 +41,8 @@ async function getNonTerminatedContractForAuthProfile(req, res) {
     try {
         const { Contract } = req.app.get('models')
 
+        // find all unterminated contracts for the authenticated profile
+        // either as a contractor or client
         const contracts = await Contract.findAll({
             where: {
                 status: {
@@ -52,7 +56,7 @@ async function getNonTerminatedContractForAuthProfile(req, res) {
                 ]
             }
         })
-
+        //  check if contracts exists
         if (!contracts || contracts.length == 0) return res.status(404).json({
             message: 'Could not find non terminated contracts - new or in_progress contracts',
         }).end()

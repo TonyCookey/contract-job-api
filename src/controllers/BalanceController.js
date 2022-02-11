@@ -10,7 +10,7 @@ async function depositFunds(req, res) {
         const { Contract, Job, Profile } = req.app.get('models')
 
         const { userId } = req.params
-
+        //  get all active contracts associated with the requesting user
         const contracts = await Contract.findAll({
             attributes: ['id'],
             where: {
@@ -25,7 +25,7 @@ async function depositFunds(req, res) {
                 ]
             }
         })
-
+        // check if the requesting user has any active contract
         if (!contracts || contracts.length == 0) {
             return res.status(403).json({
                 message: 'Could not complete request. This profile has no active contracts',
@@ -44,6 +44,7 @@ async function depositFunds(req, res) {
                 }
             }
         });
+        // check if the price sum was collated
         if (!sumJobsPrice || sumJobsPrice == null) {
             return res.status(403).json({
                 message: 'Could not complete request. This profile can not be funded at the moment. You have no active jobs',
@@ -76,6 +77,7 @@ async function depositFunds(req, res) {
 
         await transaction.commit();
 
+        // return the updated profile
         const profile = await Profile.findByPk(userId)
 
         res.status(200).json({

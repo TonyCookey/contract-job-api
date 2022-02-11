@@ -8,6 +8,10 @@ async function getUnpaidJobs(req, res) {
     try {
         const { Contract, Job } = req.app.get('models')
 
+        // find all unterminated contracts for the authenticated profile
+        // either as a contractor or client
+        // returning only the id attribute
+
         const contracts = await Contract.findAll({
             attributes: ['id'],
             where: {

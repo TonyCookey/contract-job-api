@@ -81,7 +81,7 @@ async function getHighestPayingClient(req, res) {
                 message: 'Could not complete request. please use the valid date format(YY/MM/DD)',
             }).end()
         }
-        // get highest paying client by collating, grouping paid jobs
+        // get highest paying client by  grouping and oredering paid jobs and contracts (joins)
         const [clients] = await sequelize.query(`
             SELECT  Contracts.createdAt ,Contracts.ClientId , SUM(Jobs.price) as amountPaid
             FROM Jobs
@@ -98,9 +98,12 @@ async function getHighestPayingClient(req, res) {
                 message: 'Could not find the highest paying client within this date range',
             }).end()
         }
-
+        // get all high paying clients returned from the db
+        // reorder the response using map and promises
         const highestPayingClients = await Promise.all(clients.map(async (client) => {
+            // find the client's profile
             const profile = await Profile.findByPk(client.ClientId)
+            // reorder the response to match the API Docs requirement
             return {
                 id: profile.id,
                 fullName: profile.getFullname(),
@@ -126,6 +129,7 @@ async function getHighestPayingClient(req, res) {
 function validateDate(start, end) {
     start = new Date(start)
     end = new Date(end)
+    // check if date is valid
     if (isNaN(Date.parse(start)) || isNaN(Date.parse(end))) {
         return false
     };
