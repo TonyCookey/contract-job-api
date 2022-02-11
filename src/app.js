@@ -6,6 +6,7 @@ const app = express();
 const ContractController = require('./controllers/ContractController')
 const JobController = require('./controllers/JobController')
 const BalanceController = require('./controllers/BalanceController')
+const AdminController = require('./controllers/AdminController')
 app.use(bodyParser.json());
 app.set('sequelize', sequelize)
 app.set('models', sequelize.models)
@@ -52,12 +53,13 @@ app.post('/balances/deposit/:userId', getProfile, BalanceController.depositFunds
 
 /**
  * get the highest earning profession during a time range
+ * @returns highest paying profession and amount earned 
  */
-app.get('/jobs/unpaid', getProfile, JobController.getUnpaidJobs)
+app.get('/admin/best-profession', getProfile, AdminController.getHighestEarningrofession)
 
 /**
  * get the highest paying clients - limit
  */
-app.get('/jobs/unpaid', getProfile, JobController.getUnpaidJobs)
+app.get('/admin/best-clients', getProfile, AdminController.getHighestPayingClient)
 
 module.exports = app;
