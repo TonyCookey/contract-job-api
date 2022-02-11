@@ -4,6 +4,8 @@ const { sequelize } = require('./model')
 const { getProfile } = require('./middleware/getProfile')
 const app = express();
 const ContractController = require('./controllers/ContractController')
+const JobController = require('./controllers/JobController')
+const BalanceController = require('./controllers/BalanceController')
 app.use(bodyParser.json());
 app.set('sequelize', sequelize)
 app.set('models', sequelize.models)
@@ -27,8 +29,24 @@ app.get('/contracts/:id', getProfile, ContractController.getContractForAuthProfi
 
 /**
  * Fetch non terminated Contract for the Authenticated Profile - new, in_progress
- * @returns contract by id
+ * @returns contracts
  */
 app.get('/contracts', getProfile, ContractController.getNonTerminatedContractForAuthProfile)
+
+/**
+ * Fetch unpaid active contract jobs for an authenticated profile
+ * @returns jobs 
+ */
+app.get('/jobs/unpaid', getProfile, JobController.getUnpaidJobs)
+
+/**
+ * Authenticated user pays contractor and updates contractor's balance
+ */
+app.post('/jobs/:job_id/pay', getProfile, JobController.payContractor)
+
+/**
+ * Deposits money into the the the balance of a client
+ */
+app.post('/balances/deposit/:userId', getProfile, BalanceController.depositFunds)
 
 module.exports = app;
