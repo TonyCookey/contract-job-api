@@ -60,28 +60,28 @@ async function depositFunds(req, res) {
             }).end()
         }
         // use the amount supplied by the user
-        if (req.body.amount && req.body.amount > quarterSumJobPrice) {
+        if (req.body.amount && req.body.amount < quarterSumJobPrice) {
             quarterSumJobPrice = req.body.amount
         }
+
         // else deposit the calculated amount
-
-
         // deposit funds into clients account
         await Profile.increment({
             balance: quarterSumJobPrice
         }, {
             where: {
-                id: req.profile.id
+                id: userId
             }
         }, { transaction })
 
         await transaction.commit();
 
+        const profile = await Profile.findByPk(userId)
 
         res.status(200).json({
             message: 'successfully deposited into user account. User balance updated',
             amount_funded: quarterSumJobPrice,
-            profile: req.profile,
+            profile
         })
 
 

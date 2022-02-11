@@ -48,18 +48,18 @@ app.post('/jobs/:job_id/pay', getProfile, JobController.payContractor)
 /**
  * Deposits money into the the the balance of a client
  */
-app.post('/balances/deposit/:userId', getProfile, BalanceController.depositFunds)
+app.post('/balances/deposit/:userId', BalanceController.depositFunds)
 
 
 /**
  * get the highest earning profession during a time range
  * @returns highest paying profession and amount earned 
  */
-app.get('/admin/best-profession', getProfile, AdminController.getHighestEarningrofession)
+app.get('/admin/best-profession', AdminController.getHighestPaidrofession)
 
 /**
  * get the highest paying clients - limit
  */
-app.get('/admin/best-clients', getProfile, AdminController.getHighestPayingClient)
+app.get('/admin/best-clients', AdminController.getHighestPayingClient)
 
 module.exports = app;
